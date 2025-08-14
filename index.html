@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boost Stream Agency — Google Ads та Трекінг Конверсій</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Налаштовуємо Google Ads, впроваджуємо GTM/GA4, серверний та клієнтський трекінг, дашборди. Зростання продажів на чистих даних." />
+  <link rel="canonical" href="https://boost-stream.example/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Boost Stream Agency — Реклама та Трекінг" />
+  <meta property="og:description" content="Google Ads, GTM/GA4, conversion tracking, dashboard-аналітика." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://boost-stream.example/og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root{
+      /* Паландра з твого візуалу */
+      --bg-1:#EAF8D8; /* світло-м'ятний */
+      --bg-2:#DDF3C8; /* ще світліший */
+      --ink:#0e2b23;  /* майже чорний темно-зелений */
+      --ink-soft:#163b30;
+      --accent:#103f34; /* CTA */
+      --muted:#243f37;
+      --card:rgba(255,255,255,.65);
+      --ring:rgba(16,63,52,.25);
+      --ok:#1a7f49;
+      --warn:#ab6b00;
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --radius:14px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1200px 800px at 70% 20%, var(--bg-1), var(--bg-2));
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:var(--max);margin-inline:auto;padding:0 20px}
+    .btn{
+      display:inline-block;padding:14px 22px;border-radius:10px;
+      background:var(--accent);color:#fff;font-weight:700;letter-spacing:.2px;
+      box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.05);
+      transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .btn.outline{background:transparent;color:var(--accent);border:1.2px solid var(--accent)}
+    .tag{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:var(--card);border:1px solid var(--ring);font-size:13px}
+
+    /* Header */
+    .header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(160%) blur(10px);
+      background:linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,.25));
+      border-bottom:1px solid rgba(0,0,0,.06)
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+    .logo{display:flex;flex-direction:column;line-height:.9;font-weight:900;letter-spacing:.5px}
+    .logo .top{font-size:20px}
+    .logo .bottom{font-size:12px;font-weight:600;color:var(--muted)}
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{font-weight:600}
+    @media (max-width:900px){ .menu .hide-sm{display:none} }
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden}
+    .hero .inner{padding:80px 0 40px;display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+    @media (max-width:980px){ .hero .inner{grid-template-columns:1fr;padding:56px 0 10px}}
+    .title{font-size:58px;line-height:1.03;margin:0 0 10px;font-weight:900;letter-spacing:-.4px}
+    .subtitle{font-size:20px;color:var(--muted);max-width:680px}
+    .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+
+    /* Decorative waves */
+    .waves{position:absolute;inset:0;z-index:-1;opacity:.55}
+    .waves svg{width:140%;min-width:1200px;transform:translate(-10%,-10%)}
+    .stroke{stroke:rgba(14,43,35,.55);fill:none;stroke-width:1}
+    .stroke2{stroke:rgba(14,43,35,.35)}
+
+    /* Sections */
+    section{padding:64px 0}
+    h2.sec{font-size:34px;margin:0 0 16px}
+    .lead{font-size:18px;color:var(--muted);max-width:760px}
+
+    /* Clients */
+    .logos{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;align-items:center;opacity:.85}
+    .logoBox{height:46px;border-radius:12px;background:var(--card);border:1px solid var(--ring);display:flex;align-items:center;justify-content:center}
+    @media (max-width:900px){.logos{grid-template-columns:repeat(3,1fr)}}
+
+    /* Services */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      background:var(--card);border:1px solid var(--ring);border-radius:var(--radius);padding:22px;
+      box-shadow:var(--shadow)
+    }
+    .card h3{margin:0 0 8px}
+    .card p{margin:0 0 8px}
+    .list{margin:10px 0 0;padding-left:18px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    /* Stats */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .kpi{background:var(--card);border:1px solid var(--ring);border-radius:14px;padding:18px;text-align:center}
+    .kpi b{font-size:28px}
+    @media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+    /* Process */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .step{background:var(--card);border:1px solid var(--ring);border-radius:12px;padding:18px}
+    .step .num{font-weight:800;font-size:12px;letter-spacing:.6px;color:var(--muted)}
+    @media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+
+    /* Cases */
+    .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .case{background:var(--card);border:1px solid var(--ring);border-radius:12px;padding:18px}
+    .badge{font-size:12px;background:#fff;border:1px solid var(--ring);border-radius:999px;padding:4px 8px;display:inline-block;margin-bottom:8px}
+    .metrics{display:flex;gap:12px;flex-wrap:wrap}
+    .metric{background:#fff;border:1px solid var(--ring);border-radius:10px;padding:8px 10px;font-size:13px}
+    @media (max-width:980px){.cases{grid-template-columns:1fr}}
+
+    /* Testimonials */
+    .quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .quote{background:var(--card);border:1px solid var(--ring);border-radius:14px;padding:18px}
+    .who{font-weight:700}
+    @media (max-width:900px){.quotes{grid-template-columns:1fr}}
+
+    /* Pricing (optional) */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .plan{background:var(--card);border:1px solid var(--ring);border-radius:14px;padding:20px;position:relative}
+    .plan .price{font-size:32px;font-weight:900}
+    .plan .note{font-size:12px;color:var(--muted)}
+    @media (max-width:980px){.pricing{grid-template-columns:1fr}}
+
+    /* Tech */
+    .stack{display:flex;gap:10px;flex-wrap:wrap}
+
+    /* FAQ */
+    details{background:var(--card);border:1px solid var(--ring);border-radius:12px;padding:12px}
+    summary{font-weight:700;cursor:pointer}
+
+    /* Contact */
+    .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+    .form{background:#fff;border:1px solid var(--ring);border-radius:14px;padding:18px}
+    label{font-weight:600;display:block;margin:10px 0 6px}
+    input,textarea{
+      width:100%;padding:12px;border-radius:10px;border:1px solid var(--ring);background:#fff
+    }
+    .trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .trust .t{font-size:12px;border:1px solid var(--ring);border-radius:999px;padding:6px 10px;background:#fff}
+    @media (max-width:980px){.contact{grid-template-columns:1fr}}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid rgba(0,0,0,.06);color:var(--muted);font-size:14px}
+
+    /* Cookie */
+    .cookie{
+      position:fixed;left:20px;right:20px;bottom:20px;z-index:60;
+      background:#fff;border:1px solid var(--ring);border-radius:12px;padding:12px;box-shadow:var(--shadow);
+      display:none;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <div class="logo" aria-label="Boost Stream Agency">
+        <span class="top">BOOST STREAM</span>
+        <span class="bottom">agency</span>
+      </div>
+      <nav class="menu" aria-label="Основне меню">
+        <a href="#services" class="hide-sm">Послуги</a>
+        <a href="#cases" class="hide-sm">Кейси</a>
+        <a href="#process" class="hide-sm">Процес</a>
+        <a href="#faq" class="hide-sm">FAQ</a>
+        <a href="#contact" class="btn">Безкоштовний аудит</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="waves" aria-hidden="true">
+      <!-- Хвилі в стилі логотипів -->
+      <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <path id="w" d="M 0 500 Q 350 600 700 500 T 1400 500" />
+        </defs>
+        <!-- кілька паралельних ліній -->
+        <use href="#w" class="stroke"/>
+        <use href="#w" class="stroke" transform="translate(0,-60)"/>
+        <use href="#w" class="stroke2" transform="translate(0,60)"/>
+        <use href="#w" class="stroke2" transform="translate(0,120)"/>
+      </svg>
+    </div>
+    <div class="container inner">
+      <div>
+        <div class="tag">Google Ads • GTM/GA4 • eCom/LeadGen</div>
+        <h1 class="title">Реклама, що масштабується на&nbsp;чистих даних</h1>
+        <p class="subtitle">
+          Запускаємо та оптимізуємо Google Ads, будуємо трекінг (GTM/GA4, server/client),
+          підключаємо дашборди. Мінімум шуму — максимум прибутку.
+        </p>
+        <div class="ctas">
+          <a href="#contact" class="btn">Замовити аудит</a>
+          <a href="#cases" class="btn outline">Подивитись кейси</a>
+        </div>
+        <div style="margin-top:14px;font-size:13px;color:var(--muted)">
+          Місця на онбординг цього місяця: <b>3</b> (оновлюється щотижня)
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h3>Що отримаєте за 14 днів</h3>
+          <ul class="list">
+            <li>Аудит акаунтів Google Ads та аналітики</li>
+            <li>План гіпотез + швидкі перемоги (quick wins)</li>
+            <li>Впроваджений базовий/покращений трекінг конверсій</li>
+            <li>Прозорий прогноз KPI та бюджетів</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:6px">Почати</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section aria-labelledby="clients">
+    <div class="container">
+      <h2 id="clients" class="sec">Нам довіряють</h2>
+      <p class="lead">Досвід у нішах: eCommerce, SaaS, локальний сервіс, освіта.</p>
+      <div class="logos" aria-label="Логотипи клієнтів (плейсхолдери)">
+        <div class="logoBox">CLIENT • A</div><div class="logoBox">CLIENT • B</div>
+        <div class="logoBox">CLIENT • C</div><div class="logoBox">CLIENT • D</div>
+        <div class="logoBox">CLIENT • E</div><div class="logoBox">CLIENT • F</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" aria-labelledby="srv">
+    <div class="container">
+      <h2 id="srv" class="sec">Послуги</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Google Ads</h3>
+          <p>Пошук, PMax, Shopping, YouTube. Повна структура акаунту, біддинг-стратегії, фіди, скрипти.</p>
+          <ul class="list">
+            <li>Аудит і реструктуризація</li>
+            <li>PMax + Shopping для eCom</li>
+            <li>Лідоген: Search/YouTube</li>
+            <li>Скрипти, правила, автозвіти</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Трекінг & Аналітика</h3>
+          <p>GTM/GA4 (client + server), Enhanced Conversions, API-конверсії, cross-domain, UTM-архітектура.</p>
+          <ul class="list">
+            <li>Мапа подій, дата-шар</li>
+            <li>Валідація/дедуплікація конверсій</li>
+            <li>Імпорт офлайн-подій</li>
+            <li>Дашборди Looker Studio</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Аналітика прибутку</h3>
+          <p>ROAS/POAS, LTV-моделі, атрибуція, сегментація, тест-дизайн.</p>
+          <ul class="list">
+            <li>Когортний аналіз</li>
+            <li>Тести креативів/лендінгів</li>
+            <li>З'єднання з CRM</li>
+            <li>Прогнозування попиту</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stack" style="margin-top:16px">
+        <span class="tag">Google Ads</span><span class="tag">GTM</span><span class="tag">GA4</span>
+        <span class="tag">Looker Studio</span><span class="tag">BigQuery</span><span class="tag">Meta CAPI</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section aria-labelledby="stats">
+    <div class="container">
+      <h2 id="stats" class="sec">Сухі цифри</h2>
+      <div class="stats">
+        <div class="kpi"><div>Середнє зростання конверсій</div><b>+38%</b><div style="font-size:12px;color:var(--muted)">за 90 днів</div></div>
+        <div class="kpi"><div>Середнє зниження CPA</div><b>−27%</b></div>
+        <div class="kpi"><div>Проєктів у eCom</div><b>120+</b></div>
+        <div class="kpi"><div>Ринки</div><b>EU • US • UK</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="process" aria-labelledby="proc">
+    <div class="container">
+      <h2 id="proc" class="sec">Як ми працюємо</h2>
+      <div class="steps">
+        <div class="step"><div class="num">КРОК 1</div><h3>Діагностика</h3><p>Аудит Ads, аналітики й фідів. Узгоджуємо KPI.</p></div>
+        <div class="step"><div class="num">КРОК 2</div><h3>Трекінг</h3><p>GTM/GA4, конверсії, атрибуція. Перевірка даних.</p></div>
+        <div class="step"><div class="num">КРОК 3</div><h3>Запуск</h3><p>Структура акаунту, креативи, біддинг. Контроль якості.</p></div>
+        <div class="step"><div class="num">КРОК 4</div><h3>Масштаб</h3><p>A/B тести, POAS-оптимізація, автоматизації.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case studies -->
+  <section id="cases" aria-labelledby="cs">
+    <div class="container">
+      <h2 id="cs" class="sec">Кейси</h2>
+      <div class="cases">
+        <article class="case">
+          <span class="badge">eCommerce • Fashion</span>
+          <h3>Перехід на PMax + чистий фід</h3>
+          <p>Вирівняли фід, відсікли неконверсійні запити, зібрали власні аудиторії.</p>
+          <div class="metrics">
+            <span class="metric">ROAS +62%</span>
+            <span class="metric">CPA −31%</span>
+            <span class="metric">Н2 від 60k€</span>
+          </div>
+        </article>
+        <article class="case">
+          <span class="badge">SaaS • B2B</span>
+          <h3>Server-side конверсії + Lead Qual</h3>
+          <p>Дедуплікація, офлайн-імпорт лідів із CRM, скоринг і авто-біддинг.</p>
+          <div class="metrics">
+            <span class="metric">SQL +44%</span>
+            <span class="metric">CPA −22%</span>
+            <span class="metric">LTV ↑</span>
+          </div>
+        </article>
+        <article class="case">
+          <span class="badge">Local • Services</span>
+          <h3>Гіперлокальний пошук + YouTube</h3>
+          <p>Структура за намірами, точні розширення, відео-ремаркетинг.</p>
+          <div class="metrics">
+            <span class="metric">Запити +78%</span>
+            <span class="metric">Вартість дзвінка −35%</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section aria-labelledby="refs">
+    <div class="container">
+      <h2 id="refs" class="sec">Що кажуть клієнти</h2>
+      <div class="quotes">
+        <figure class="quote"><blockquote>«Після їхнього аудиту ми побачили реальні дані, а не шум. CPA впав уже в перший місяць».</blockquote><figcaption class="who">Андрій, eCom засновник</figcaption></figure>
+        <figure class="quote"><blockquote>«Вони говорять просто, роблять швидко і віддають зрозумілі дашборди. Рекомендуємо».</blockquote><figcaption class="who">Вікторія, COO SaaS</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing (optional, можна сховати) -->
+  <section aria-labelledby="price">
+    <div class="container">
+      <h2 id="price" class="sec">Прайс (від)</h2>
+      <div class="pricing">
+        <div class="plan">
+          <h3>Старт</h3>
+          <div class="price">€690</div>
+          <div class="note">Аудит + швидкі правки</div>
+          <ul class="list">
+            <li>Аудит Ads/Analytics</li><li>План гіпотез</li><li>Впровадження базових конверсій</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <h3>Зростання</h3>
+          <div class="price">€1 490/міс</div>
+          <div class="note">Запуск + оптимізація</div>
+          <ul class="list">
+            <li>Повний менеджмент Ads</li><li>GTM/GA4 розширений</li><li>Дашборди</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <h3>Scale</h3>
+          <div class="price">Custom</div>
+          <div class="note">POAS, Server-side, CRM</div>
+          <ul class="list">
+            <li>POAS-моделі, LTV</li><li>Server-side конверсії</li><li>Автоматизації/скрипти</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" aria-labelledby="faqh">
+    <div class="container">
+      <h2 id="faqh" class="sec">FAQ</h2>
+      <div class="grid">
+        <details open><summary>Чи можете ви додати бейдж Google Partner?</summary><div>Так, коли акаунт відповідає вимогам Google (перформанс, витрати, сертифікації) — розміщуємо офіційний бейдж. </div></details>
+        <details><summary>Працюєте з Meta/LinkedIn?</summary><div>Так. Основний фокус — Google, але інтегруємо повний трекінг і мультиканальні візії.</div></details>
+        <details><summary>Скільки триває онбординг?</summary><div>В середньому 1–2 тижні: аудит → план → впровадження трекінгу → запуск/реструктуризація.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="cont">
+    <div class="container">
+      <h2 id="cont" class="sec">Почнімо з безкоштовного аудиту</h2>
+      <p class="lead">Залиште контакти й коротко опишіть ціль. Відповімо протягом 1 робочого дня.</p>
+      <div class="contact">
+        <form class="form" onsubmit="return sendForm(event)">
+          <label for="name">Ім'я</label>
+          <input id="name" name="name" required />
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+          <label for="msg">Ціль/продукт/ринок</label>
+          <textarea id="msg" name="message" rows="5" required></textarea>
+          <div class="trust">
+            <div class="t">Шифрування HTTPS</div>
+            <div class="t">Політика приватності</div>
+            <div class="t">Анти-спам reCAPTCHA*</div>
+          </div>
+          <button class="btn" style="margin-top:12px">Надіслати</button>
+          <div id="ok" style="display:none;margin-top:10px;color:var(--ok)">Дякуємо! Ми на зв'язку 👋</div>
+        </form>
+        <div class="card">
+          <h3>Чому ми?</h3>
+          <ul class="list">
+            <li>Мова цифр: рішення = дані</li>
+            <li>Трекінг до запуску: без нього — ніяких масштабів</li>
+            <li>Прозорі звіти: Looker Studio з ключовими KPI</li>
+            <li>Чесна комунікація та швидкі ітерації</li>
+          </ul>
+          <div style="margin-top:14px">
+            <div class="tag">Місце під <b>Google Partner</b> бейдж</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> Boost Stream Agency</div>
+      <div><a href="#">Політика приватності</a> • <a href="#">Cookies</a> • <a href="mailto:hello@booststream.agency">hello@booststream.agency</a></div>
+    </div>
+  </footer>
+
+  <!-- Cookie notice -->
+  <div class="cookie" id="cookie">
+    <div>Ми використовуємо cookies для аналітики та покращення досвіду. Продовжуючи — погоджуєтесь із політикою.</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="acceptCookies()">Ок</button>
+      <a class="btn outline" href="#">Детальніше</a>
+    </div>
+  </div>
+
+  <!-- Schema (Organization, WebSite, FAQ) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Boost Stream Agency",
+    "url":"https://boost-stream.example/",
+    "logo":"https://boost-stream.example/logo.png",
+    "sameAs":[]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"Boost Stream Agency",
+    "url":"https://boost-stream.example/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://boost-stream.example/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Чи можете ви додати бейдж Google Partner?","acceptedAnswer":{"@type":"Answer","text":"Так, коли акаунт відповідає вимогам Google — розміщуємо офіційний бейдж."}},
+      {"@type":"Question","name":"Працюєте з Meta/LinkedIn?","acceptedAnswer":{"@type":"Answer","text":"Так. Основний фокус — Google, але робимо мультиканальний трекінг і оптимізацію."}},
+      {"@type":"Question","name":"Скільки триває онбординг?","acceptedAnswer":{"@type":"Answer","text":"1–2 тижні: аудит → трекінг → запуск/реструктуризація."}}
+    ]
+  }
+  </script>
+
+  <script>
+    // дрібні інтеракції
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function sendForm(e){
+      e.preventDefault();
+      // тут можна підключити Formspree/Netlify/ваш бекенд
+      document.getElementById('ok').style.display='block';
+      e.target.reset();
+      return false;
+    }
+    // cookie
+    const c = document.getElementById('cookie');
+    function acceptCookies(){ localStorage.setItem('bs_cookie_ok','1'); c.style.display='none' }
+    if(!localStorage.getItem('bs_cookie_ok')){ c.style.display='flex' }
+  </script>
+</body>
+</html>
