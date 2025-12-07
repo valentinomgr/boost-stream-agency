@@ -23,9 +23,35 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Cookie Banner Initialization ---
-  const cookieBanner = document.getElementById("cookie");
   if (cookieBanner && !localStorage.getItem("bs_cookie_ok")) {
     cookieBanner.style.display = "flex";
+  }
+
+  // --- Cookie Banner Initialization (Покращена версія) ---
+  const cookieBanner = document.getElementById("cookie");
+  const cookieKey = "bs_cookie_ok";
+  const cookieStatus = localStorage.getItem(cookieKey); // Отримуємо статус
+
+  console.log("--- ІНІЦІАЛІЗАЦІЯ КУКІ-БАНЕРА ---");
+  console.log(`Елемент банера (ID='cookie') знайдено: ${!!cookieBanner}`);
+  console.log(
+    `Статус кукі '${cookieKey}': ${cookieStatus ? "ЗГОДА Є" : "ЗГОДИ НЕМАЄ"}`
+  );
+
+  if (cookieBanner) {
+    if (!cookieStatus) {
+      // Умова: Елемент існує І згоди немає
+      cookieBanner.style.display = "flex";
+      console.log("✅ КУКІ-БАНЕР ПОКАЗАНО: Згоди в Local Storage не знайдено.");
+    } else {
+      // Умова: Елемент існує І згода Є
+      console.log("🛑 КУКІ-БАНЕР ПРИХОВАНО: Згоду знайдено в Local Storage.");
+    }
+  } else {
+    // Умова: Елемент НЕ існує
+    console.error(
+      `❌ ПОМИЛКА: Не вдалося знайти елемент банера з ID='cookie'.`
+    );
   }
 
   // --- Language Switcher Initialization ---
