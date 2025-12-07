@@ -21,18 +21,18 @@ if (!localStorage.getItem("bs_cookie_ok")) {
 // ----------- I18N -----------
 async function loadLang(code) {
   try {
-    const res = await fetch(`/i18n/${code}.json`);
-    const dict = await res.json();
+    const response = await fetch(`/i18n/${code}.json`);
+    const dictionary = await response.json();
 
     // textContent targets
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const k = el.getAttribute("data-i18n");
-      if (dict[k] !== undefined) el.textContent = dict[k];
+    document.querySelectorAll("[data-i18n]").forEach((element) => {
+      const k = element.getAttribute("data-i18n");
+      if (dictionary[k] !== undefined) element.textContent = dictionary[k];
     });
     // innerHTML targets
-    document.querySelectorAll("[data-i18n-html]").forEach((el) => {
-      const k = el.getAttribute("data-i18n-html");
-      if (dict[k] !== undefined) el.innerHTML = dict[k];
+    document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+      const k = element.getAttribute("data-i18n-html");
+      if (dictionary[k] !== undefined) element.innerHTML = dictionary[k];
     });
 
     // <html lang>
@@ -41,8 +41,8 @@ async function loadLang(code) {
 
     // language selection is saved
     localStorage.setItem("lang", code);
-  } catch (e) {
-    console.error("i18n load error", e);
+  } catch (error) {
+    console.error("i18n load error", error);
   }
 }
 
