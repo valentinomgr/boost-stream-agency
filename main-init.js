@@ -22,15 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     formElement.addEventListener("submit", sendForm);
   }
 
-  // --- Cookie Banner Initialization ---
-  if (cookieBanner && !localStorage.getItem("bs_cookie_ok")) {
-    cookieBanner.style.display = "flex";
-  }
-
   // --- Cookie Banner Initialization (Покращена версія) ---
   const cookieBanner = document.getElementById("cookie");
   const cookieKey = "bs_cookie_ok";
-  const cookieStatus = localStorage.getItem(cookieKey); // Отримуємо статус
+  const cookieStatus = localStorage.getItem(cookieKey); // Get the local storage item value
 
   console.log("--- ІНІЦІАЛІЗАЦІЯ КУКІ-БАНЕРА ---");
   console.log(`Елемент банера (ID='cookie') знайдено: ${!!cookieBanner}`);
