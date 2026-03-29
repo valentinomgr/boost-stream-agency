@@ -1,0 +1,21 @@
+{
+  "name": "Boost Stream Agency",
+  "short_name": "Boost Stream",
+  "description": "Performance-агенція для системної digital-реклами",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c8ff00",
+  "icons": [
+    {
+      "src": "favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
