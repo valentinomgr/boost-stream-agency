@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Tracking — Boost Stream Agency</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Налаштування Google Analytics 4, Google Tag Manager та Looker Studio. Побудова систем аналітики для прийняття рішень на основі даних.">
+    <meta name="keywords" content="Google Analytics, GA4, Google Tag Manager, GTM, Looker Studio, веб-аналітика, трекінг конверсій">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://booststream.agency/en/analytics.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://booststream.agency/en/analytics.html">
+    <meta property="og:title" content="Analytics & Tracking — Boost Stream Agency">
+    <meta property="og:description" content="Налаштування Google Analytics 4, Google Tag Manager та Looker Studio для прийняття рішень на основі даних.">
+    <meta property="og:image" content="https://booststream.agency/og-image.png">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Analytics & Tracking — Boost Stream Agency">
+    <meta name="twitter:description" content="Налаштування Google Analytics 4, Google Tag Manager та Looker Studio.">
+    <meta name="twitter:image" content="https://booststream.agency/og-image.png">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#c8ff00">
+    
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --black-card: #111111;
+            --white: #ffffff;
+            --white-soft: #f5f5f5;
+            --white-muted: #888888;
+            --lime: #c8ff00;
+            --lime-glow: rgba(200, 255, 0, 0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--black); color: var(--white); line-height: 1.7; overflow-x: hidden; }
+        
+        /* Animated background */
+        body::before { 
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); 
+            opacity: 0.02; pointer-events: none; z-index: -1; 
+        }
+        
+        .bg-glow { 
+            position: fixed; width: 600px; height: 600px; border-radius: 50%; 
+            filter: blur(120px); opacity: 0.07; pointer-events: none; z-index: 0;
+            animation: floatGlow 8s ease-in-out infinite;
+        }
+        .bg-glow-1 { background: #F9AB00; top: -200px; right: -100px; animation-delay: 0s; }
+        .bg-glow-2 { background: #4285F4; bottom: -200px; left: -100px; animation-delay: -4s; }
+        .bg-glow-3 { background: #34A853; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; height: 400px; opacity: 0.04; animation: floatGlow 12s ease-in-out infinite reverse; }
+        
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.05); }
+        }
+        
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+        .text-lime { color: var(--lime); }
+        
+        /* Navigation */
+        nav { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 4rem; 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), transparent); 
+            backdrop-filter: blur(20px);
+            animation: slideDown 0.8s ease;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; text-decoration: none; color: var(--white); transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
+        .logo-icon { 
+            width: 40px; height: 40px; background: var(--lime); border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(200, 255, 0, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(200, 255, 0, 0.2); }
+        }
+        
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+        .lang-switcher { display: flex; background: rgba(255, 255, 255, 0.05); border-radius: 100px; padding: 4px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .lang-btn { background: transparent; border: none; color: var(--white-muted); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; font-family: 'Outfit', sans-serif; text-decoration: none; display: inline-block; }
+        .lang-btn:hover { color: var(--white); transform: scale(1.05); }
+        .lang-btn.active { background: var(--lime); color: var(--black); }
+        .back-btn { 
+            display: flex; align-items: center; gap: 0.5rem; color: var(--white-muted); 
+            text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; 
+            padding: 0.6rem 1.2rem; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .back-btn:hover { color: var(--white); border-color: var(--lime); transform: translateX(-5px); }
+        .back-btn svg { transition: transform 0.3s ease; }
+        .back-btn:hover svg { transform: translateX(-3px); }
+        
+        /* Hero */
+        .page-hero { padding: 10rem 4rem 4rem; text-align: center; position: relative; z-index: 1; }
+        .page-hero h1 { 
+            font-size: 3.5rem; margin-bottom: 1rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        .page-hero .subtitle { 
+            font-size: 1.2rem; color: var(--white-muted); max-width: 600px; margin: 0 auto;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Platforms Grid */
+        .platforms { padding: 2rem 4rem 5rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .platforms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        
+        .platform-card { 
+            background: var(--black-card); border-radius: 20px; padding: 2.5rem 2rem; 
+            border: 1px solid rgba(255, 255, 255, 0.05); position: relative; overflow: hidden; 
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0; transform: translateY(60px);
+        }
+        .platform-card.visible {
+            opacity: 1; transform: translateY(0);
+        }
+        .platform-card:nth-child(1) { transition-delay: 0.1s; }
+        .platform-card:nth-child(2) { transition-delay: 0.2s; }
+        .platform-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .platform-card:hover { 
+            border-color: rgba(200, 255, 0, 0.3); 
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(200, 255, 0, 0.1);
+        }
+        
+        .card-glow { 
+            position: absolute; width: 200px; height: 200px; background: var(--lime); 
+            border-radius: 50%; filter: blur(80px); opacity: 0; 
+            transition: all 0.5s ease; pointer-events: none; 
+        }
+        .platform-card:hover .card-glow { opacity: 0.15; transform: scale(1.5); }
+        
+        .platform-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+        .platform-logo { 
+            width: 56px; height: 56px; border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .platform-card:hover .platform-logo { 
+            transform: scale(1.1) rotate(5deg); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .platform-logo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .platform-card:hover .platform-logo::after { opacity: 1; }
+        
+        .platform-logo.ga4 { background: linear-gradient(135deg, #F9AB00, #E37400); }
+        .platform-logo.gtm { background: linear-gradient(135deg, #4285F4, #246FDB); }
+        .platform-logo.looker { background: linear-gradient(135deg, #4285F4, #34A853); }
+        
+        .platform-logo svg { transition: transform 0.3s ease; }
+        .platform-card:hover .platform-logo svg { transform: scale(1.1); }
+        
+        .platform-name { 
+            font-size: 1.4rem; font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .platform-card:hover .platform-name { color: var(--lime); }
+        
+        .platform-tagline { 
+            display: inline-block; background: var(--lime-glow); color: var(--lime); 
+            padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; 
+            margin-bottom: 1rem; border: 1px solid rgba(200, 255, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .platform-card:hover .platform-tagline {
+            background: var(--lime);
+            color: var(--black);
+            transform: scale(1.05);
+        }
+        
+        .platform-desc { color: var(--white-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7; }
+        .platform-benefits { list-style: none; }
+        .platform-benefits li { 
+            position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; 
+            color: var(--white-soft); font-size: 0.9rem;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        .platform-card:hover .platform-benefits li { opacity: 1; }
+        .platform-benefits li:hover { transform: translateX(5px); color: var(--white); }
+        .platform-benefits li::before { 
+            content: ''; position: absolute; left: 0; top: 0.5rem; 
+            width: 6px; height: 6px; background: var(--lime); border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .platform-benefits li:hover::before { 
+            transform: scale(1.5); 
+            box-shadow: 0 0 10px var(--lime);
+        }
+        
+        /* Pricing Section */
+        .pricing-section { padding: 0 4rem 5rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .pricing-card { 
+            background: linear-gradient(135deg, var(--black-card) 0%, rgba(200, 255, 0, 0.02) 100%); 
+            border-radius: 24px; padding: 2.5rem 3rem; 
+            border: 1px solid rgba(200, 255, 0, 0.15); position: relative; overflow: hidden;
+            transition: all 0.5s ease;
+            opacity: 0; transform: translateY(40px);
+        }
+        .pricing-card.visible { opacity: 1; transform: translateY(0); }
+        .pricing-card:hover {
+            border-color: rgba(200, 255, 0, 0.4);
+            box-shadow: 0 20px 60px rgba(200, 255, 0, 0.1);
+        }
+        .pricing-card::before { 
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; 
+            background: linear-gradient(90deg, var(--lime), rgba(200, 255, 0, 0.3), var(--lime));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        .pricing-content { display: flex; align-items: center; justify-content: space-between; gap: 3rem; }
+        .pricing-left { display: flex; align-items: center; gap: 1.5rem; }
+        .price-icon { 
+            width: 60px; height: 60px; background: rgba(200, 255, 0, 0.15); border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; border: 1px solid rgba(200, 255, 0, 0.3);
+            animation: iconFloat 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        .pricing-card:hover .price-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(200, 255, 0, 0.3);
+        }
+        .price-icon svg { width: 28px; height: 28px; stroke: var(--lime); fill: none; }
+        .price-label { display: block; color: var(--white-muted); font-size: 0.85rem; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 1px; }
+        .price-amount { display: flex; align-items: baseline; gap: 0.25rem; }
+        .price-currency { color: var(--lime); font-size: 1.5rem; font-weight: 700; }
+        .price-value { 
+            color: var(--white); font-size: 2.5rem; font-weight: 800; 
+            background: linear-gradient(135deg, var(--white), var(--lime)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; 
+        }
+        .price-period { color: var(--white-muted); font-size: 1rem; margin-left: 0.25rem; }
+        .pricing-divider { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, rgba(200, 255, 0, 0.3), transparent); }
+        .pricing-right { max-width: 400px; }
+        .pricing-right p { color: var(--white-muted); font-size: 0.95rem; line-height: 1.7; }
+        
+        /* CTA Section */
+        .cta-section { padding: 0 4rem 5rem; max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+        .cta-box { 
+            background: linear-gradient(135deg, var(--black-card) 0%, rgba(200, 255, 0, 0.03) 100%); 
+            border-radius: 24px; padding: 4rem; text-align: center; 
+            border: 1px solid rgba(200, 255, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.5s ease;
+            z-index: 10;
+        }
+        .cta-box.visible { opacity: 1; transform: translateY(0); }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(200, 255, 0, 0.03) 0%, transparent 50%);
+            animation: rotateBg 20s linear infinite;
+        }
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-box h2 { font-size: 2rem; margin-bottom: 1rem; position: relative; }
+        .cta-box p { color: var(--white-muted); margin-bottom: 2rem; font-size: 1.05rem; position: relative; }
+        .cta-btn { 
+            display: inline-flex; align-items: center; gap: 0.75rem; 
+            background: var(--lime); color: var(--black); 
+            padding: 1.15rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1rem; 
+            text-decoration: none; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+            box-shadow: 0 0 40px rgba(200, 255, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            z-index: 100;
+            cursor: pointer;
+        }
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-btn:hover::before { left: 100%; }
+        .cta-btn:hover { 
+            transform: translateY(-5px) scale(1.05); 
+            box-shadow: 0 30px 60px rgba(200, 255, 0, 0.4); 
+        }
+        .cta-btn svg { transition: transform 0.3s ease; }
+        .cta-btn:hover svg { transform: translateX(5px); }
+        
+        /* Footer */
+        footer { padding: 2.5rem 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.04); }
+        footer p { color: var(--white-muted); font-size: 0.85rem; }
+        
+        /* Animations */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) { 
+            .platforms-grid { grid-template-columns: 1fr; max-width: 550px; margin: 0 auto; } 
+        }
+        @media (max-width: 768px) { 
+            nav { padding: 1rem 1.5rem; } 
+            .page-hero { padding: 9rem 1.5rem 3rem; } 
+            .page-hero h1 { font-size: 2.2rem; } 
+            .platforms { padding: 1rem 1.5rem 4rem; } 
+            .pricing-section { padding: 0 1.5rem 4rem; } 
+            .pricing-content { flex-direction: column; align-items: flex-start; gap: 1.5rem; } 
+            .pricing-divider { width: 100%; height: 1px; } 
+            .cta-section { padding: 0 1.5rem 4rem; } 
+            .cta-box { padding: 2.5rem 1.5rem; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+    
+    <nav>
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">BS</div>
+            <span>Boost Stream</span>
+        </a>
+        <div class="nav-right">
+            <a href="../index.html" class="back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span>Back</span>
+            </a>
+            <div class="lang-switcher"><a href="../analytics.html" class="lang-btn">UA</a><a href="analytics.html" class="lang-btn active">EN</a></div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1><span class="text-lime">Analytics</span> <span>& Tracking</span></h1>
+        <p class="subtitle">Analytics systems setup for data-driven decision making</p>
+    </section>
+
+    <section class="platforms">
+        <div class="platforms-grid">
+            <div class="platform-card">
+                <div class="card-glow" style="top: -50px; right: -50px;"></div>
+                <div class="platform-header">
+                    <div class="platform-logo ga4">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="barGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#E37400"/>
+                                    <stop offset="100%" stop-color="#FFCC00"/>
+                                </linearGradient>
+                                <linearGradient id="barGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#F9AB00"/>
+                                    <stop offset="100%" stop-color="#FFE082"/>
+                                </linearGradient>
+                                <filter id="barShadow" x="-20%" y="-10%" width="140%" height="130%">
+                                    <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+                                </filter>
+                            </defs>
+                            <rect x="6" y="36" width="12" height="22" rx="3" fill="url(#barGrad2)" filter="url(#barShadow)"/>
+                            <rect x="8" y="38" width="8" height="18" rx="2" fill="white" opacity="0.3"/>
+                            <rect x="24" y="20" width="12" height="38" rx="3" fill="url(#barGrad1)" filter="url(#barShadow)"/>
+                            <rect x="26" y="22" width="8" height="34" rx="2" fill="white" opacity="0.3"/>
+                            <rect x="42" y="8" width="12" height="50" rx="3" fill="url(#barGrad2)" filter="url(#barShadow)"/>
+                            <rect x="44" y="10" width="8" height="46" rx="2" fill="white" opacity="0.3"/>
+                            <path d="M10 32 L30 18 L50 6" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#barShadow)"/>
+                            <circle cx="10" cy="32" r="4" fill="white"/>
+                            <circle cx="30" cy="18" r="4" fill="white"/>
+                            <circle cx="50" cy="6" r="4" fill="#FFCC00"/>
+                            <path d="M56 16 L57 19 L60 20 L57 21 L56 24 L55 21 L52 20 L55 19 Z" fill="white" opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <span class="platform-name">Google Analytics 4</span>
+                </div>
+                <span class="platform-tagline">USER BEHAVIOR</span>
+                <p class="platform-desc">Complete picture of visitor behavior on your site. From first visit to conversion — you see every step of your customer.</p>
+                <ul class="platform-benefits">
+                    <li>GA4 setup from scratch for your goals</li>
+                    <li>Key events and conversions tracking</li>
+                    <li>Audience segmentation and sales funnels</li>
+                    <li>Integration with Google Ads and other services</li>
+                </ul>
+            </div>
+            <div class="platform-card">
+                <div class="card-glow" style="top: -50px; right: -50px;"></div>
+                <div class="platform-header">
+                    <div class="platform-logo gtm">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="gtmGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#5C9EF8"/>
+                                    <stop offset="100%" stop-color="#246FDB"/>
+                                </linearGradient>
+                                <linearGradient id="gtmGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#89B9FC"/>
+                                    <stop offset="100%" stop-color="#4285F4"/>
+                                </linearGradient>
+                                <filter id="gtmShadow" x="-20%" y="-10%" width="140%" height="130%">
+                                    <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.35"/>
+                                </filter>
+                            </defs>
+                            <path d="M32 8 L54 20 L32 32 L10 20 Z" fill="url(#gtmGrad2)" filter="url(#gtmShadow)"/>
+                            <path d="M10 20 L32 32 L32 52 L10 40 Z" fill="#246FDB"/>
+                            <path d="M32 32 L54 20 L54 40 L32 52 Z" fill="url(#gtmGrad1)"/>
+                            <path d="M22 26 L28 32 L22 38" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <path d="M42 26 L36 32 L42 38" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <rect x="48" y="6" width="12" height="8" rx="2" fill="white" opacity="0.9" filter="url(#gtmShadow)"/>
+                            <circle cx="52" cy="10" r="2" fill="#246FDB"/>
+                            <rect x="2" y="44" width="10" height="6" rx="1.5" fill="#89B9FC" opacity="0.8"/>
+                            <rect x="4" y="52" width="8" height="5" rx="1.5" fill="#5C9EF8" opacity="0.6"/>
+                            <circle cx="56" cy="32" r="3" fill="white" opacity="0.7"/>
+                            <circle cx="8" cy="32" r="2" fill="white" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <span class="platform-name">Google Tag Manager</span>
+                </div>
+                <span class="platform-tagline">CENTRALIZED TRACKING</span>
+                <p class="platform-desc">Single point of control for all tags and scripts. Quick changes implementation without developers.</p>
+                <ul class="platform-benefits">
+                    <li>Container and basic tags setup</li>
+                    <li>Click, scroll, form tracking</li>
+                    <li>Enhanced Ecommerce for online stores</li>
+                    <li>Meta, TikTok, LinkedIn pixel integration</li>
+                </ul>
+            </div>
+            <div class="platform-card">
+                <div class="card-glow" style="top: -50px; right: -50px;"></div>
+                <div class="platform-header">
+                    <div class="platform-logo looker">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="lookerGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#4285F4"/>
+                                    <stop offset="100%" stop-color="#34A853"/>
+                                </linearGradient>
+                                <filter id="lookerShadow" x="-20%" y="-10%" width="140%" height="130%">
+                                    <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+                                </filter>
+                            </defs>
+                            <rect x="4" y="8" width="56" height="44" rx="6" fill="white" filter="url(#lookerShadow)"/>
+                            <rect x="4" y="8" width="56" height="10" rx="6" fill="url(#lookerGrad1)"/>
+                            <rect x="4" y="14" width="56" height="4" fill="url(#lookerGrad1)"/>
+                            <circle cx="12" cy="13" r="2" fill="#EA4335"/>
+                            <circle cx="19" cy="13" r="2" fill="#FBBC04"/>
+                            <circle cx="26" cy="13" r="2" fill="#34A853"/>
+                            <circle cx="18" cy="34" r="10" fill="#E8F0FE"/>
+                            <path d="M18 24 L18 34 L28 34 A10 10 0 0 0 18 24" fill="#4285F4"/>
+                            <path d="M18 34 L28 34 A10 10 0 0 1 18 44 Z" fill="#34A853"/>
+                            <path d="M18 34 L18 44 A10 10 0 0 1 8 34 Z" fill="#FBBC04"/>
+                            <rect x="34" y="38" width="6" height="8" rx="1" fill="#4285F4"/>
+                            <rect x="42" y="32" width="6" height="14" rx="1" fill="#34A853"/>
+                            <rect x="50" y="28" width="6" height="18" rx="1" fill="#FBBC04"/>
+                            <path d="M34 26 L40 22 L46 25 L52 18" stroke="#EA4335" stroke-width="2" stroke-linecap="round" fill="none"/>
+                            <circle cx="34" cy="26" r="2" fill="#EA4335"/>
+                            <circle cx="46" cy="25" r="2" fill="#EA4335"/>
+                            <circle cx="52" cy="18" r="2" fill="#EA4335"/>
+                            <rect x="50" y="2" width="12" height="8" rx="2" fill="#34A853" opacity="0.8" filter="url(#lookerShadow)"/>
+                            <path d="M54 4 L54 8 M52 6 L56 6" stroke="white" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <span class="platform-name">Looker Studio</span>
+                </div>
+                <span class="platform-tagline">DATA VISUALIZATION</span>
+                <p class="platform-desc">Clear dashboards with key metrics in real time. All data from different sources — in one report.</p>
+                <ul class="platform-benefits">
+                    <li>Automatic reports on ads and sales</li>
+                    <li>KPI dashboards for management</li>
+                    <li>Data consolidation from various sources</li>
+                    <li>Alerts and notifications setup</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pricing-section">
+        <div class="pricing-card">
+            <div class="pricing-content">
+                <div class="pricing-left">
+                    <div class="price-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="price-label">Price from</span>
+                        <div class="price-amount">
+                            <span class="price-currency">$</span>
+                            <span class="price-value">100</span>
+                            <span class="price-period">/ project</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-divider"></div>
+                <div class="pricing-right">
+                    <p>Basic analytics setup is included in targeted advertising price. Separate payment — for custom dashboards and advanced reports.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Not sure if your analytics is working correctly?</h2>
+            <p>We will conduct a free audit and show growth points</p>
+            <a href="index.html#contact" class="cta-btn">
+                <span>Free Audit</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2024 Boost Stream Agency. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language switching handled by direct links
+            
+            
+            // Scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.platform-card, .pricing-card, .cta-box').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Fallback: make elements visible after 1 second
+            setTimeout(() => { 
+                document.querySelectorAll(".platform-card, .pricing-card, .cta-box").forEach(el => el.classList.add("visible")); 
+            }, 1000);
+        });
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('bsLang', lang);
+            applyLanguage(lang);
+        }
+        
+        function applyLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+            document.documentElement.lang = lang;
+            document.title = lang === 'uk' ? 'Аналітика — Boost Stream Agency' : 'Analytics — Boost Stream Agency';
+            document.querySelectorAll('[data-lang-uk][data-lang-en]').forEach(el => {
+                const text = el.getAttribute('data-lang-' + lang);
+                if (text) {
+                    if (el.querySelector('[data-lang-uk]')) return;
+                    const svg = el.querySelector('svg');
+                    if (el.tagName === 'A') {
+                        const span = el.querySelector('span');
+                        if (span) { span.textContent = text; }
+                    } else {
+                        el.innerHTML = svg ? text + ' ' + svg.outerHTML : text;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
